@@ -55,11 +55,13 @@
                 </div>
                  <div class="flex items-center space-x-3">
                     <div class="flex flex-col items-end">
-                        <button class="flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition-colors p-1.5 rounded-full focus:outline-none focus:ring-2 focus:ring-white/50 mb-1">
-                            <div id="header-unicorn-container" class="w-6 h-6 rounded-full bg-pink-200 flex items-center justify-center overflow-hidden">
-                                <!-- Unicorn will be injected here by JS -->
+                        <button id="auth-button" class="flex items-center space-x-2 bg-white/10 hover:bg-white/20 transition-colors p-1.5 rounded-full focus:outline-none focus:ring-2 focus:ring-white/50 mb-1">
+                            <div id="auth-avatar-container" class="w-6 h-6 rounded-full bg-pink-200 flex items-center justify-center overflow-hidden">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-pink-700" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                                </svg>
                             </div>
-                            <span class="text-white font-medium text-sm pr-2">Welcome Explorer</span>
+                            <span id="auth-text" class="text-white font-medium text-sm pr-2">Sign In</span>
                         </button>
                         <div id="location-container" class="flex items-center space-x-1 text-sm font-medium text-purple-100 cursor-pointer" title="Click to edit location">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
@@ -141,8 +143,27 @@
             </main>
         </div>
     </div>
+    
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-    <script>
+        // IMPORTANT: Replace this with your own Firebase project configuration
+        // To get this, go to your Firebase project -> Project Settings -> General
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
         const chatMessages = document.getElementById('chat-messages');
         const chatForm = document.getElementById('chat-form');
         const chatInput = document.getElementById('chat-input');
@@ -152,7 +173,11 @@
         const guidedProcessesHeader = document.getElementById('guided-processes-header');
         const guidedProcessesList = document.getElementById('guided-processes-list');
         const featureFindSupport = document.getElementById('feature-find-support');
-        const headerUnicornContainer = document.getElementById('header-unicorn-container');
+        
+        // Auth elements
+        const authButton = document.getElementById('auth-button');
+        const authAvatarContainer = document.getElementById('auth-avatar-container');
+        const authText = document.getElementById('auth-text');
 
         // Location elements
         const locationContainer = document.getElementById('location-container');
@@ -182,8 +207,15 @@
 
             if (sender === 'user') {
                 messageWrapper.classList.add('justify-end');
-                avatar.classList.add('bg-pink-200', 'order-2', 'p-0');
-                avatar.innerHTML = `<img src="https://openmoji.org/data/color/svg/1F984.svg" alt="User Avatar" class="w-full h-full p-1">`;
+                avatar.classList.add('order-2', 'p-0');
+                const currentUser = auth.currentUser;
+                if (currentUser && currentUser.photoURL) {
+                     avatar.innerHTML = `<img src="${currentUser.photoURL}" alt="User Avatar" class="w-full h-full">`;
+                } else {
+                    avatar.classList.add('bg-pink-200');
+                    avatar.innerHTML = `<img src="https://openmoji.org/data/color/svg/1F984.svg" alt="User Avatar" class="w-full h-full p-1">`;
+                }
+
                 messageContent.classList.add('bg-gradient-to-br', 'from-indigo-500', 'to-purple-600', 'text-white', 'order-1');
                 messageContent.innerHTML = message.replace(/\n/g, '<br>');
             } else { 
@@ -245,8 +277,8 @@
             
             chatHistory.push({ role: "user", parts: [{ text: userQuery }] });
 
-            const tada = "AIzaSyCfGj-O5QwIxorqqHE5NQZXZdFGSM5LuNs"; 
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${tada}`;
+            const apiKey = ""; // API key is provided by the environment
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
 
             const payload = {
                 contents: chatHistory,
@@ -463,15 +495,37 @@
             }
         };
 
+        // --- Authentication Logic ---
+        const handleSignIn = () => {
+            signInWithPopup(auth, provider).catch((error) => console.error("Sign in error", error));
+        };
+
+        const handleSignOut = () => {
+            signOut(auth).catch((error) => console.error("Sign out error", error));
+        };
+
+        onAuthStateChanged(auth, user => {
+            if (user) {
+                // User is signed in
+                authText.textContent = user.displayName || 'Explorer';
+                authAvatarContainer.innerHTML = `<img src="${user.photoURL}" alt="Profile" class="w-full h-full">`;
+                authButton.onclick = handleSignOut;
+            } else {
+                // User is signed out
+                authText.textContent = 'Sign In';
+                authAvatarContainer.innerHTML = `<img src="https://openmoji.org/data/color/svg/1F984.svg" alt="Profile Avatar" class="w-full h-full p-0.5">`;
+                authButton.onclick = handleSignIn;
+            }
+        });
+
+
         window.addEventListener('load', () => {
              const initialGreeting = 'Hello! How can I help you with your expat journey today? Select a feature on the right or ask me a question.';
              addMessageToUI('ai', initialGreeting);
              chatHistory.push({ role: 'model', parts: [{ text: initialGreeting }] });
              chatInput.focus();
              
-             if(headerUnicornContainer) {
-                headerUnicornContainer.innerHTML = `<img src="https://openmoji.org/data/color/svg/1F984.svg" alt="Profile Avatar" class="w-full h-full p-0.5">`;
-             }
+             // The onAuthStateChanged will handle the initial auth state, so no need to set unicorn here.
              
              initializeLocationDetector();
         });
