@@ -96,7 +96,18 @@
                         <p class="text-sm text-gray-500 mt-1">Select a feature to get started.</p>
                     </div>
 
-                    <!-- Feature 2: Step-by-step Guides -->
+                    <!-- New Feature: Plan My Journey -->
+                    <div id="feature-plan-journey" class="feature-card bg-white p-4 rounded-xl shadow-sm border border-gray-200 cursor-pointer hover:border-teal-400 hover:shadow-lg transition-all duration-300">
+                        <div class="flex items-center space-x-4">
+                            <div class="feature-icon bg-teal-100 text-teal-600 p-3 rounded-lg"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg></div>
+                            <div>
+                                <h3 class="font-semibold text-gray-800">Plan My Journey</h3>
+                                <p class="text-sm text-gray-500">Create a personalized milestone plan.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feature: Step-by-step Guides -->
                     <div class="feature-card bg-white p-4 rounded-xl shadow-sm border border-gray-200 hover:border-purple-400 hover:shadow-lg transition-all duration-300">
                          <div class="flex items-center space-x-4 cursor-pointer" id="guided-processes-header">
                             <div class="feature-icon bg-purple-100 text-purple-600 p-3 rounded-lg"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l5.447 2.724A1 1 0 0021 16.382V5.618a1 1 0 00-1.447-.894L15 7m-6 3l6-3m0 0l6-3m-6 3V4" /></svg></div>
@@ -113,7 +124,7 @@
                         </div>
                     </div>
                     
-                    <!-- Feature 3: Find Support -->
+                    <!-- Feature: Find Support -->
                      <div id="feature-find-support" class="feature-card bg-white p-4 rounded-xl shadow-sm border border-gray-200 cursor-pointer hover:border-pink-400 hover:shadow-lg transition-all duration-300">
                         <div class="flex items-center space-x-4">
                             <div class="feature-icon bg-pink-100 text-pink-600 p-3 rounded-lg"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21v-1a6 6 0 00-5.197-5.975M15 21H3m12 0h6M12 12.5a4.5 4.5 0 110-9 4.5 4.5 0 010 9z" /></svg></div>
@@ -124,18 +135,14 @@
                         </div>
                     </div>
 
-                    <!-- Feature 4: Journey Tracker (Simulated) -->
-                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                    <!-- Feature: Journey Tracker (Now Dynamic) -->
+                    <div id="journey-tracker-container" class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
                         <h3 class="font-semibold text-gray-800">My Journey Tracker</h3>
-                        <p class="text-xs text-gray-400 mt-1">(This is a demo of the tracking feature)</p>
-                        <ul class="mt-3 space-y-3 text-sm">
-                           <li class="flex items-start space-x-3 text-gray-600">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" /></svg>
-                                <div><span class="font-medium text-gray-800">Blue Card Renewal</span><br>Due in <span class="text-amber-600 font-semibold">6 months</span>. Time to book an appointment!</div>
-                           </li>
-                           <li class="flex items-start space-x-3 text-gray-600">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
-                                <div><span class="font-medium text-gray-800">Tax Return 2024</span><br>Submitted on Aug 15, 2025.</div>
+                        <ul id="journey-tracker-list" class="mt-3 space-y-3 text-sm">
+                           <!-- Demo content will be replaced by generated plan -->
+                           <li class="flex items-start space-x-3 text-gray-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 flex-shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" /></svg>
+                                <div>Click "Plan My Journey" to create a personalized checklist here.</div>
                            </li>
                         </ul>
                     </div>
@@ -144,21 +151,35 @@
         </div>
     </div>
     
-    <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-        // IMPORTANT: Replace this with your own Firebase project configuration
-        // To get this, go to your Firebase project -> Project Settings -> General
+        // =====================================================================================
+        // CRITICAL: FIREBASE SETUP REQUIRED
+        // =====================================================================================
+        // The error 'auth/api-key-not-valid' happens because the configuration below is just a
+        // placeholder. You MUST replace these values with the actual configuration from your
+        // own Firebase project for authentication to work.
+        //
+        // How to get your Firebase config:
+        // 1. Go to https://console.firebase.google.com/
+        // 2. Create a new project (or use an existing one).
+        // 3. In your project, go to Project Settings (click the gear icon ⚙️).
+        // 4. Under the "General" tab, scroll down to "Your apps".
+        // 5. Click on the "</>" icon to add a web app (or select your existing web app).
+        // 6. You will find the 'firebaseConfig' object there. Copy its values and paste them below.
+        // 7. In the Firebase console, go to Authentication -> Sign-in method and enable "Google" as a provider.
+        // =====================================================================================
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "PASTE_YOUR_API_KEY_HERE",
+            authDomain: "PASTE_YOUR_AUTH_DOMAIN_HERE",
+            projectId: "PASTE_YOUR_PROJECT_ID_HERE",
+            storageBucket: "PASTE_YOUR_STORAGE_BUCKET_HERE",
+            messagingSenderId: "PASTE_YOUR_MESSAGING_SENDER_ID_HERE",
+            appId: "PASTE_YOUR_APP_ID_HERE"
         };
+
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
@@ -170,9 +191,11 @@
         const submitButton = chatForm.querySelector('button');
         
         // Feature elements
+        const featurePlanJourney = document.getElementById('feature-plan-journey');
         const guidedProcessesHeader = document.getElementById('guided-processes-header');
         const guidedProcessesList = document.getElementById('guided-processes-list');
         const featureFindSupport = document.getElementById('feature-find-support');
+        const journeyTrackerList = document.getElementById('journey-tracker-list');
         
         // Auth elements
         const authButton = document.getElementById('auth-button');
@@ -187,6 +210,7 @@
         // --- State Management ---
         let chatHistory = [];
         const discoColors = ['#4f46e5','#6366f1','#818cf8','#9333ea','#a855f7','#c084fc','#db2777','#ec4899','#f472b6','#a5b4fc','#d8b4fe','#fbcfe8','#f1f5f9'];
+        let awaitingJourneyInfo = false;
         
         let systemPrompt = `You are "Expat AI," a friendly, knowledgeable, and empathetic assistant for people living abroad, specifically in Germany. Your primary goal is to provide clear, accurate, and actionable information.
         - **Core Persona:** You are supportive, clear, and an expert on German bureaucracy and expat life.
@@ -358,7 +382,12 @@
             const userInput = chatInput.value.trim();
             if (userInput) {
                 addMessageToUI('user', userInput);
-                getAIResponse(userInput);
+                if (awaitingJourneyInfo) {
+                    awaitingJourneyInfo = false;
+                    generateJourneyPlan(userInput);
+                } else {
+                    getAIResponse(userInput);
+                }
                 chatInput.value = '';
             }
         });
@@ -370,6 +399,13 @@
             chatHistory.push({ role: 'model', parts: [{ text: clarifyingQuestion }] });
         };
         
+        featurePlanJourney.addEventListener('click', () => {
+            const userAction = "I want to plan my expat journey.";
+            const clarifyingQuestion = "Great! To create your personalized timeline, could you please tell me your planned move-in date and your primary reason for moving (e.g., job offer, studies)?";
+            startContextualConversation(userAction, clarifyingQuestion);
+            awaitingJourneyInfo = true;
+        });
+
         guidedProcessesHeader.addEventListener('click', () => {
             guidedProcessesList.classList.toggle('hidden');
         });
@@ -492,6 +528,87 @@
                     square.style.transform = `translateX(${x}px) translateY(${y}px) translateZ(${z}px)`;
                     discoBall.appendChild(square);
                 }
+            }
+        };
+
+        const renderJourneyPlan = (milestones) => {
+            journeyTrackerList.innerHTML = ''; // Clear existing content
+            if (!milestones || milestones.length === 0) {
+                journeyTrackerList.innerHTML = `<li class="text-gray-500">Sorry, I couldn't create a plan with the information provided. Please try again.</li>`;
+                return;
+            }
+
+            milestones.forEach(item => {
+                const li = document.createElement('li');
+                li.classList.add('flex', 'items-start', 'space-x-3', 'text-gray-600');
+                
+                const icon = item.status === 'Done' 
+                    ? `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>`
+                    : `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" /></svg>`;
+
+                li.innerHTML = `${icon}<div><span class="font-medium text-gray-800">${item.milestone}</span><br>Due: <span class="text-amber-600 font-semibold">${item.dueDate}</span></div>`;
+                journeyTrackerList.appendChild(li);
+            });
+        };
+
+        const generateJourneyPlan = async (userInfo) => {
+            addMessageToUI('ai', "Great! Let me draft a personalized journey plan for you. This might take a moment...");
+            journeyTrackerList.innerHTML = `<li class="text-gray-500 animate-pulse">Generating your plan...</li>`;
+
+            const apiKey = ""; // API key is provided by the environment
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+            const plannerSystemPrompt = `You are a specialized AI assistant for creating structured expat journey plans. The user will provide their moving details. Your task is to generate a JSON array of milestones. Each milestone must be an object with three properties: "milestone" (a string describing the task), "dueDate" (a string with an estimated date or timeframe), and "status" (a string, always "To Do"). Base the timeline on the current date of ${new Date().toLocaleDateString()}.`;
+
+            const planRequestHistory = [
+                ...chatHistory,
+                {
+                    role: 'user',
+                    parts: [{ text: `Here is my information: ${userInfo}`}]
+                }
+            ];
+
+            const payload = {
+                contents: planRequestHistory,
+                systemInstruction: { parts: [{ text: plannerSystemPrompt }] },
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "ARRAY",
+                        items: {
+                            type: "OBJECT",
+                            properties: {
+                                "milestone": { "type": "STRING" },
+                                "dueDate": { "type": "STRING" },
+                                "status": { "type": "STRING" },
+                            },
+                            required: ["milestone", "dueDate", "status"]
+                        }
+                    }
+                }
+            };
+            
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
+
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    const jsonText = candidate.content.parts[0].text;
+                    const plan = JSON.parse(jsonText);
+                    renderJourneyPlan(plan);
+                    addMessageToUI('ai', "I've created your personalized plan! You can see the milestones in the 'My Journey Tracker' on the right.");
+                } else {
+                    throw new Error("Invalid response structure from AI.");
+                }
+            } catch (error) {
+                console.error("Failed to generate journey plan:", error);
+                addMessageToUI('ai', "I'm sorry, I had trouble creating your plan. Could you please try rephrasing your information?");
+                renderJourneyPlan([]); // Renders the error message in the tracker
             }
         };
 
