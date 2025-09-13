@@ -322,7 +322,7 @@
             
             chatHistory.push({ role: "user", parts: [{ text: userQuery }] });
 
-            const lol = "AIzaSyCfGj-O5QwIxorqqHE5NQZXZdFGSM5LuNs";
+            const lol = "AIzaSyCfGj-O5QwIxorqqHE5NQZXZdFGSM5LuNs"; // API key is provided by the environment
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${lol}`;
 
             const payload = {
@@ -419,12 +419,26 @@
             addMessageToUI('ai', clarifyingQuestion);
             chatHistory.push({ role: 'model', parts: [{ text: clarifyingQuestion }] });
         };
+        
+        const openToolkit = () => {
+            toolkitPanel.classList.remove('hidden');
+            document.body.classList.add('body-no-scroll');
+        }
+
+        const closeToolkit = () => {
+            toolkitPanel.classList.add('hidden');
+            document.body.classList.remove('body-no-scroll');
+        }
+
+        mobileToolkitToggle.addEventListener('click', openToolkit);
+        closeToolkitBtn.addEventListener('click', closeToolkit);
 
         featurePlanJourney.addEventListener('click', () => {
             const userAction = "I want to plan my expat journey.";
             const clarifyingQuestion = "Great! To create your personalized timeline, could you please tell me your planned move-in date and your primary reason for moving (e.g., job offer, studies)?";
             startContextualConversation(userAction, clarifyingQuestion);
             awaitingJourneyInfo = true;
+            closeToolkit();
         });
 
         guidedProcessesHeader.addEventListener('click', () => {
@@ -455,7 +469,10 @@
                         clarifyingQuestion = "I can guide you through the tax return process. Are you filing as a full-time employee, a freelancer, or something else?";
                         break;
                 }
-                if (userAction && clarifyingQuestion) startContextualConversation(userAction, clarifyingQuestion);
+                if (userAction && clarifyingQuestion) {
+                    startContextualConversation(userAction, clarifyingQuestion);
+                    closeToolkit();
+                }
             }
         });
         
@@ -464,6 +481,7 @@
             const currentLocation = locationText.textContent || 'your area';
             const clarifyingQuestion = `Of course! To find the right help, could you tell me what type of support you need in <strong>${currentLocation}</strong>? <br><br> For example: <ul><li class="ml-4">- Lawyers</li><li class="ml-4">- Tax Advisors</li><li class="ml-4">- Interpreters</li></ul>`;
             startContextualConversation(userAction, clarifyingQuestion);
+            closeToolkit();
         });
 
         const initializeLocationDetector = () => {
@@ -576,7 +594,7 @@
             addMessageToUI('ai', "Great! Let me draft a personalized journey plan for you. This might take a moment...");
             journeyTrackerList.innerHTML = `<li class="text-gray-500 animate-pulse">Generating your plan...</li>`;
 
-            const lol = "AIzaSyCfGj-O5QwIxorqqHE5NQZXZdFGSM5LuNs";
+            const lol = "AIzaSyCfGj-O5QwIxorqqHE5NQZXZdFGSM5LuNs"; 
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${lol}`;
             const plannerSystemPrompt = `You are a specialized AI assistant for creating structured expat journey plans. The user will provide their moving details. Your task is to generate a JSON array of milestones. Each milestone must be an object with three properties: "milestone" (a string describing the task), "dueDate" (a string with an estimated date or timeframe), and "status" (a string, always "To Do"). Base the timeline on the current date of ${new Date().toLocaleDateString()}.`;
 
@@ -670,3 +688,5 @@
     </script>
 </body>
 </html>
+
+
