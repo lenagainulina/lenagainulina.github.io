@@ -26,24 +26,9 @@
         @keyframes blink { 0%, 100% { opacity: 0.2; } 20% { opacity: 1; } }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- Animations for Chat Disco Ball --- */
-        @-webkit-keyframes rotateDiscoBall { 0% {-webkit-transform: rotateX(90deg) rotateZ(0deg) rotate(0deg); } 100% {-webkit-transform: rotateX(90deg) rotateZ(360deg) rotate(0deg); } }
-        @keyframes rotateDiscoBall { 0% {transform: rotateX(90deg) rotateZ(0deg) rotate(0deg); } 100% {transform: rotateX(90deg) rotateZ(360deg) rotate(0deg); } }
-        @-webkit-keyframes rotateDiscoBallMiddle { 0% {-webkit-transform: rotateX(90deg) rotateY(0deg) rotate(0deg); } 100% {-webkit-transform: rotateX(90deg) rotateY(-360deg) rotate(0deg); } }
-        @keyframes rotateDiscoBallMiddle { 0% {transform: rotateX(90deg) rotateY(0deg) rotate(0deg); } 100% {transform: rotateX(90deg) rotateY(-360deg) rotate(0deg); } }
-        @-webkit-keyframes reflect { 0% {-webkit-filter: brightness(60%);} 50% {-webkit-filter: brightness(120%);} 100% {-webkit-filter: brightness(90%);} }
-        @keyframes reflect { 0% {opacity: 1;} 50% {opacity: 0.4;} 100% {opacity: 1;} }
-        
         /* Feature Card pulse */
         .feature-card:hover .feature-icon { animation: pulse-icon 1.5s infinite; }
         @keyframes pulse-icon { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
-
-        /* Chat Disco Ball Avatar - DYNAMIC VERSION */
-        .dynamic-disco-container { width: 100%; height: 100%; position: relative; }
-        .dynamic-disco-ball-light { width: 32px; height: 32px; position: absolute; top: 0; left: 0; border-radius: 100%; background-color: white; opacity: 0.2; -webkit-filter: blur(6px); filter: blur(6px); }
-        .dynamic-disco-ball { -webkit-transform-style: preserve-3d; transform-style: preserve-3d; width: 32px; height: 32px; position: absolute; top: 0; left: 0; -webkit-animation: rotateDiscoBall 18s linear infinite; animation: rotateDiscoBall 18s linear infinite; }
-        .dynamic-disco-ball-middle { -webkit-transform-style: preserve-3d; transform-style: preserve-3d; height: 100%; width: 100%; border-radius: 100%; background-color: #111; position: absolute; background: linear-gradient(top, #111, #333); -webkit-animation: rotateDiscoBallMiddle 18s linear infinite; animation: rotateDiscoBallMiddle 18s linear infinite; }
-        .dynamic-disco-square { -webkit-transform-style: preserve-3d; transform-style: preserve-3d; position: absolute; top: 16px; left: 16px; width: 2.1px; height: 2.1px; transform: rotateX(90deg) rotateY(0deg) translateZ(0px); }
     </style>
 </head>
 <body class="antialiased text-gray-800">
@@ -230,9 +215,10 @@
         
         // --- State Management ---
         let chatHistory = [];
-        const discoColors = ['#4f46e5','#6366f1','#818cf8','#9333ea','#a855f7','#c084fc','#db2777','#ec4899','#f472b6','#a5b4fc','#d8b4fe','#fbcfe8','#f1f5f9'];
         let awaitingJourneyInfo = false;
         
+        const aiAvatarSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="discoGradient" cx="0.3" cy="0.3" r="0.7"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="20%" stop-color="#F9A8D4"/><stop offset="100%" stop-color="#A855F7"/></radialGradient><pattern id="discoPattern" patternUnits="userSpaceOnUse" width="10" height="10"><path d="M0 0 H5 V5 H0 Z" fill="rgba(255,255,255,0.1)"/><path d="M5 5 H10 V10 H5 Z" fill="rgba(255,255,255,0.1)"/></pattern></defs><circle cx="50" cy="50" r="50" fill="url(#discoGradient)"/><circle cx="50" cy="50" r="50" fill="url(#discoPattern)"/></svg>`;
+
         let systemPrompt = `You are "Expat AI," a friendly, knowledgeable, and empathetic assistant for people living abroad, specifically in Germany. Your primary goal is to provide clear, accurate, and actionable information.
         - **Core Persona:** You are supportive, clear, and an expert on German bureaucracy and expat life.
         - **Formatting:** Use Markdown extensively. Use lists, bold text, and code blocks to structure information for easy reading.
@@ -265,7 +251,8 @@
                 messageContent.innerHTML = message.replace(/\n/g, '<br>');
             } else { 
                 messageWrapper.classList.add('justify-start');
-                avatar.classList.add('relative', 'p-0', 'bg-transparent', 'shadow-none');
+                avatar.classList.add('relative', 'p-0');
+                avatar.innerHTML = aiAvatarSVG;
                 messageContent.classList.add('bg-white', 'text-gray-700', 'border', 'border-gray-100');
                 let formattedMessage = message.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n\s*-\s/g, '<br>• ').replace(/^\s*-\s/, '• ').replace(/\n/g, '<br>');
                 messageContent.innerHTML = formattedMessage;
@@ -287,11 +274,6 @@
             messageWrapper.appendChild(avatar);
             messageWrapper.appendChild(messageContent);
             chatMessages.appendChild(messageWrapper);
-
-            if (sender === 'ai') {
-                createDynamicDiscoBall(avatar);
-            }
-            
             chatMessages.scrollTop = chatMessages.scrollHeight;
         };
         
@@ -299,15 +281,8 @@
             const typingIndicator = document.createElement('div');
             typingIndicator.id = 'typing-indicator';
             typingIndicator.classList.add('flex', 'items-end', 'chat-bubble');
-            typingIndicator.innerHTML = `<div id="typing-avatar" class="relative w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center shadow-md p-0 bg-transparent overflow-hidden"></div><div class="mx-3 p-3 rounded-xl bg-white border border-gray-100 shadow-sm text-gray-800 ai-typing-indicator"><span class="inline-block w-2 h-2 bg-gray-400 rounded-full"></span><span class="inline-block w-2 h-2 bg-gray-400 rounded-full"></span><span class="inline-block w-2 h-2 bg-gray-400 rounded-full"></span></div>`;
+            typingIndicator.innerHTML = `<div class="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center shadow-md p-0 overflow-hidden">${aiAvatarSVG}</div><div class="mx-3 p-3 rounded-xl bg-white border border-gray-100 shadow-sm text-gray-800 ai-typing-indicator"><span class="inline-block w-2 h-2 bg-gray-400 rounded-full"></span><span class="inline-block w-2 h-2 bg-gray-400 rounded-full"></span><span class="inline-block w-2 h-2 bg-gray-400 rounded-full"></span></div>`;
             chatMessages.appendChild(typingIndicator);
-            
-            const typingAvatar = document.getElementById('typing-avatar');
-            if (typingAvatar) {
-                createDynamicDiscoBall(typingAvatar);
-                typingAvatar.removeAttribute('id');
-            }
-
             chatMessages.scrollTop = chatMessages.scrollHeight;
         };
 
@@ -322,7 +297,7 @@
             
             chatHistory.push({ role: "user", parts: [{ text: userQuery }] });
 
-            const lol = "AIzaSyCfGj-O5QwIxorqqHE5NQZXZdFGSM5LuNs"; // API key is provided by the environment
+            const lol = "AIzaSyCfGj-O5QwIxorqqHE5NQZXZdFGSM5LuNs"; 
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${lol}`;
 
             const payload = {
@@ -538,38 +513,6 @@
             console.log("System prompt context updated to:", newLocation);
         };
         
-        const randomNumber = (min, max) => Math.floor(Math.random()*(max-min+1))+min;
-
-        const createDynamicDiscoBall = (container) => {
-            if (!container) return;
-            container.innerHTML = `<div class="dynamic-disco-ball-light"></div><div class="dynamic-disco-ball"><div class="dynamic-disco-ball-middle"></div></div>`;
-            const discoBall = container.querySelector('.dynamic-disco-ball');
-            if (!discoBall) return;
-            const radius = 16, squareSize = 2.1, prec = 19.55, fuzzy = 0.001, inc = (Math.PI - fuzzy) / prec;
-            for(let t = fuzzy; t < Math.PI; t += inc) {
-                const z = radius * Math.cos(t), currentRadius = Math.abs((radius * Math.cos(0) * Math.sin(t)) - (radius * Math.cos(Math.PI) * Math.sin(t))) / 2.5;
-                const circumference = Math.abs(2 * Math.PI * currentRadius), squaresThatFit = Math.floor(circumference / squareSize), angleInc = (Math.PI * 2 - fuzzy) / squaresThatFit;
-                for(let i = angleInc / 2 + fuzzy; i < (Math.PI * 2); i += inc) {
-                    const square = document.createElement("div"), squareTile = document.createElement("div");
-                    square.className = "dynamic-disco-square";
-                    squareTile.style.width = `${squareSize}px`;
-                    squareTile.style.height = `${squareSize}px`;
-                    squareTile.style.transformOrigin = "0 0 0";
-                    squareTile.style.webkitTransform = `rotate(${i}rad) rotateY(${t}rad)`;
-                    squareTile.style.transform = `rotate(${i}rad) rotateY(${t}rad)`;
-                    squareTile.style.backgroundColor = discoColors[randomNumber(0, discoColors.length - 1)];
-                    squareTile.style.webkitAnimation = `reflect 2s linear infinite ${randomNumber(0,20)/10}s`;
-                    squareTile.style.animation = `reflect 2s linear infinite ${randomNumber(0,20)/10}s`;
-                    squareTile.style.backfaceVisibility = "hidden";
-                    square.appendChild(squareTile);
-                    const x = radius * Math.cos(i) * Math.sin(t), y = radius * Math.sin(i) * Math.sin(t);
-                    square.style.webkitTransform = `translateX(${Math.ceil(x)}px) translateY(${y}px) translateZ(${z}px)`;
-                    square.style.transform = `translateX(${x}px) translateY(${y}px) translateZ(${z}px)`;
-                    discoBall.appendChild(square);
-                }
-            }
-        };
-
         const renderJourneyPlan = (milestones) => {
             journeyTrackerList.innerHTML = ''; // Clear existing content
             if (!milestones || milestones.length === 0) {
@@ -688,5 +631,4 @@
     </script>
 </body>
 </html>
-
 
