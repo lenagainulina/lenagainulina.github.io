@@ -297,8 +297,8 @@
             
             chatHistory.push({ role: "user", parts: [{ text: userQuery }] });
 
-            const lol = "AIzaSyA_yeQJXTtEu9_tbdKNtbasvkbcGzDw_qQ"; 
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${lol}`;
+            const apiKey = ""; //Add your API Key here for accessing LLM
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
 
             const payload = {
                 contents: chatHistory,
@@ -537,8 +537,8 @@
             addMessageToUI('ai', "Great! Let me draft a personalized journey plan for you. This might take a moment...");
             journeyTrackerList.innerHTML = `<li class="text-gray-500 animate-pulse">Generating your plan...</li>`;
 
-            const lol = "AIzaSyA_yeQJXTtEu9_tbdKNtbasvkbcGzDw_qQ"; 
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${lol}`;
+            const apiKey = ""; //add your ApiKey here for accessing LLM
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
             const plannerSystemPrompt = `You are a specialized AI assistant for creating structured expat journey plans. The user will provide their moving details. Your task is to generate a JSON array of milestones. Each milestone must be an object with three properties: "milestone" (a string describing the task), "dueDate" (a string with an estimated date or timeframe), and "status" (a string, always "To Do"). Base the timeline on the current date of ${new Date().toLocaleDateString()}.`;
 
             const planRequestHistory = [
